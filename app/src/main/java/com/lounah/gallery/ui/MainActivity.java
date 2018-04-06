@@ -21,13 +21,15 @@ import com.lounah.gallery.ui.allphotos.AllPhotosFragment;
 import com.lounah.gallery.ui.feed.FeedFragment;
 import com.lounah.gallery.ui.files.FilesFragment;
 import com.lounah.gallery.ui.offline.OfflineFragment;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends DaggerAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.fab_add)
@@ -43,10 +45,15 @@ public class MainActivity extends AppCompatActivity
     NavigationView navView;
 
     @BindView(R.id.tabs_main)
-    TabLayout tabLayout;
+    SmartTabLayout tabLayout;
 
     @BindView(R.id.viewpager_main)
     ViewPager viewPager;
+
+    private static final int FEED_POSITION = 0;
+    private static final int FILES_POSITION = 1;
+    private static final int ALL_PHOTOS_POSITION = 2;
+    private static final int OFFLINE_POSITION = 3;
 
     private ActionBarDrawerToggle toggle;
     private FragmentPagerItemAdapter adapter;
@@ -63,6 +70,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initUI() {
         ButterKnife.bind(this);
+
         adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
                         .add(R.string.feed, FeedFragment.class)
@@ -70,9 +78,19 @@ public class MainActivity extends AppCompatActivity
                         .add(R.string.all_photos, AllPhotosFragment.class)
                         .add(R.string.offline, OfflineFragment.class)
                         .create());
+
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setViewPager(viewPager);
+
+        setSupportActionBar(toolbar);
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
+        
     }
 
     public void onUpdateToolbar(@NonNull final Toolbar toolbar) {
@@ -132,20 +150,21 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_feed:
-                viewPager.setCurrentItem(id);
+              //  viewPager.setCurrentItem(id);
+                viewPager.setCurrentItem(FEED_POSITION);
                 break;
 
-//            case R.id.nav_files:
-//                mNavController.navigateToFiles();
-//                break;
-//
-//            case R.id.nav_all_photos:
-//                mNavController.navigateToAllPhotos();
-//                break;
-//
-//            case R.id.nav_offline:
-//                mNavController.navigateToOffline();
-//                break;
+            case R.id.nav_files:
+                viewPager.setCurrentItem(FILES_POSITION);
+                break;
+
+            case R.id.nav_all_photos:
+                viewPager.setCurrentItem(ALL_PHOTOS_POSITION);
+                break;
+
+            case R.id.nav_offline:
+                viewPager.setCurrentItem(OFFLINE_POSITION);
+                break;
 //
 //            case R.id.nav_trash:
 //                mNavController.navigateToTrash();
