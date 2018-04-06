@@ -90,7 +90,7 @@ public class MainActivity extends DaggerAppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
-        
+
     }
 
     public void onUpdateToolbar(@NonNull final Toolbar toolbar) {
