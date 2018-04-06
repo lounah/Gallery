@@ -1,8 +1,11 @@
 package com.lounah.gallery.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,63 +17,108 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lounah.gallery.R;
+import com.lounah.gallery.ui.allphotos.AllPhotosFragment;
+import com.lounah.gallery.ui.feed.FeedFragment;
+import com.lounah.gallery.ui.files.FilesFragment;
+import com.lounah.gallery.ui.offline.OfflineFragment;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.fab_add)
+    FloatingActionButton fabAdd;
+
+    @BindView(R.id.toolbar_main)
+    Toolbar toolbar;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+
+    @BindView(R.id.nav_view)
+    NavigationView navView;
+
+    @BindView(R.id.tabs_main)
+    TabLayout tabLayout;
+
+    @BindView(R.id.viewpager_main)
+    ViewPager viewPager;
+
+    private ActionBarDrawerToggle toggle;
+    private FragmentPagerItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        if (savedInstanceState == null) {}
+        // mNavController.navigateToFeed();
+        initUI();
+    }
+
+    private void initUI() {
+        ButterKnife.bind(this);
+        adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
+                FragmentPagerItems.with(this)
+                        .add(R.string.feed, FeedFragment.class)
+                        .add(R.string.files, FilesFragment.class)
+                        .add(R.string.all_photos, AllPhotosFragment.class)
+                        .add(R.string.offline, OfflineFragment.class)
+                        .create());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        navView.setNavigationItemSelectedListener(this);
+    }
+
+    public void onUpdateToolbar(@NonNull final Toolbar toolbar) {
+
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        if ((mNavController.getBackStackCount() > 0) &&
+//                (getSupportActionBar() != null) &&
+//                (mNavController != null)) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+//            toolbar.setNavigationOnClickListener(v -> onBackPressed());
+//        } else {
+//            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+//        }
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+//        } else if (mNavController.getBackStackCount() > 0)
+//            mNavController.navigateBack(); else super.onBackPressed();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -79,24 +127,34 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (id) {
+            case R.id.nav_feed:
+                viewPager.setCurrentItem(id);
+                break;
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+//            case R.id.nav_files:
+//                mNavController.navigateToFiles();
+//                break;
+//
+//            case R.id.nav_all_photos:
+//                mNavController.navigateToAllPhotos();
+//                break;
+//
+//            case R.id.nav_offline:
+//                mNavController.navigateToOffline();
+//                break;
+//
+//            case R.id.nav_trash:
+//                mNavController.navigateToTrash();
+//                break;
+//
+//            case R.id.nav_clear_space:
+//                mNavController.navigateToClearSpace();
+//                break;
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
