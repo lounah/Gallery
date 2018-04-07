@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:itemBackground="@android:color/transparent"
+        app:itemBackground="@drawable/drawer_item_background"
         app:itemIconTint="@drawable/drawer_icon_color"
         app:itemTextColor="@drawable/drawer_text_color"
         app:menu="@menu/activity_main_drawer" />
