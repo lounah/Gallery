@@ -15,6 +15,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        buildTypes.each {
+            it.buildConfigField('String', 'TOKEN', 'AQAAAAAhnJpWAADLW-6bwpNkz0Q2gz3MilFSIsA')
+        }
     }
 
     compileOptions {
@@ -26,6 +30,7 @@ android {
 ext {
     supportLibraryVersion = '27.1.1'
     daggerVersion = '2.11'
+    retrofitVersion = '2.4.0'
     rxJavaVersion = '2.1.1'
     rxJavaAndroidVersion = '2.0.1'
     rxBindingVersion = '2.0.0'
@@ -49,6 +54,11 @@ dependencies {
     // ButterKnife
     implementation "com.jakewharton:butterknife:${butterKnifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
 
     // Dagger 2
