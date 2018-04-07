@@ -6,4 +6,6 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="tab_indicator_thickness">2dp</dimen>
+    <dimen name="photo_greed_margin">1dp</dimen>
+    <dimen name="photo_greed_height">200dp</dimen>
 </resources>
