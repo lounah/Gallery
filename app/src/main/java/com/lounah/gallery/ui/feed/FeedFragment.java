@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,19 @@ import com.lounah.gallery.R;
 import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.ui.BaseFragment;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class FeedFragment extends BaseFragment implements PhotoOnClickListener {
+
+    @BindView(R.id.rv_feed)
+    RecyclerView rvFeed;
+
+    @Inject
+    FeedAdapter adapter;
 
     public static FeedFragment newInstance() {
         return new FeedFragment();
@@ -51,6 +61,11 @@ public class FeedFragment extends BaseFragment implements PhotoOnClickListener {
         super.onActivityCreated(savedInstanceState);
 
         Timber.i("ON ACTIVITY CREATED");
+    }
+
+    @Override
+    public void onItemClicked(@NonNull Photo photo) {
+
     }
 
     @Override
@@ -100,10 +115,5 @@ public class FeedFragment extends BaseFragment implements PhotoOnClickListener {
         super.onDetach();
 
         Timber.i("ON DETACH");
-    }
-
-    @Override
-    public void onItemClicked(@NonNull Photo photo) {
-
     }
 }
