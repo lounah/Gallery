@@ -40,7 +40,7 @@ public class FeedFragment extends BaseFragment {
 
         Timber.i("ON CREATE VIEW");
 
-        View view = inflater.inflate(R.layout.fragment_all_photos, container, false);
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

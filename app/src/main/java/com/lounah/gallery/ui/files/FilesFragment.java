@@ -41,7 +41,7 @@ public class FilesFragment extends BaseFragment {
 
         Timber.i("ON CREATE VIEW");
 
-        View view = inflater.inflate(R.layout.fragment_all_photos, container, false);
+        View view = inflater.inflate(R.layout.fragment_files, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

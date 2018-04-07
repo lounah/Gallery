@@ -25,6 +25,8 @@
             android:id="@+id/tabs_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:stl_defaultTabTextColor="@drawable/tab_text_color"
+            app:stl_defaultTabTextSize="15sp"
             app:stl_distributeEvenly="true"
             app:stl_dividerThickness="0dp"
             app:stl_indicatorThickness="@dimen/tab_indicator_thickness"

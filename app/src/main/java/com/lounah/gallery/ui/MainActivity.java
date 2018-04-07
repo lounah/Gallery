@@ -52,8 +52,7 @@ public class MainActivity extends DaggerAppCompatActivity
 
     private static final int FEED_POSITION = 0;
     private static final int FILES_POSITION = 1;
-    private static final int ALL_PHOTOS_POSITION = 2;
-    private static final int OFFLINE_POSITION = 3;
+    private static final int OFFLINE_POSITION = 2;
 
     private ActionBarDrawerToggle toggle;
     private FragmentPagerItemAdapter adapter;
@@ -75,7 +74,6 @@ public class MainActivity extends DaggerAppCompatActivity
                 FragmentPagerItems.with(this)
                         .add(R.string.feed, FeedFragment.class)
                         .add(R.string.files, FilesFragment.class)
-                        .add(R.string.all_photos, AllPhotosFragment.class)
                         .add(R.string.offline, OfflineFragment.class)
                         .create());
 
@@ -124,12 +122,6 @@ public class MainActivity extends DaggerAppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -158,12 +150,9 @@ public class MainActivity extends DaggerAppCompatActivity
                 viewPager.setCurrentItem(FILES_POSITION);
                 break;
 
-            case R.id.nav_all_photos:
-                viewPager.setCurrentItem(ALL_PHOTOS_POSITION);
-                break;
-
             case R.id.nav_offline:
                 viewPager.setCurrentItem(OFFLINE_POSITION);
+                fabAdd.hide();
                 break;
 //
 //            case R.id.nav_trash:

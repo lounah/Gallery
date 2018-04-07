@@ -41,7 +41,7 @@ public class OfflineFragment extends BaseFragment {
 
         Timber.i("ON CREATE VIEW");
 
-        View view = inflater.inflate(R.layout.fragment_all_photos, container, false);
+        View view = inflater.inflate(R.layout.fragment_offline, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
