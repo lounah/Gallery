@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lounah.gallery.R;
-import com.lounah.gallery.ui.allphotos.AllPhotosFragment;
 import com.lounah.gallery.ui.feed.FeedFragment;
 import com.lounah.gallery.ui.files.FilesFragment;
 import com.lounah.gallery.ui.offline.OfflineFragment;

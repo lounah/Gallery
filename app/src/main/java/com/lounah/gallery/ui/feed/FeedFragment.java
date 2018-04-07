@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lounah.gallery.R;
+import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.ui.BaseFragment;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class FeedFragment extends BaseFragment {
+public class FeedFragment extends BaseFragment implements PhotoOnClickListener {
 
     public static FeedFragment newInstance() {
         return new FeedFragment();
@@ -99,5 +100,10 @@ public class FeedFragment extends BaseFragment {
         super.onDetach();
 
         Timber.i("ON DETACH");
+    }
+
+    @Override
+    public void onItemClicked(@NonNull Photo photo) {
+
     }
 }
