@@ -9,10 +9,6 @@
             android:icon="@drawable/ic_feed_24dp"
             android:title="@string/feed" />
         <item
-            android:id="@+id/nav_files"
-            android:icon="@drawable/ic_folder_24dp"
-            android:title="@string/files" />
-        <item
             android:id="@+id/nav_offline"
             android:icon="@drawable/ic_offline_24dp"
             android:title="@string/offline" />

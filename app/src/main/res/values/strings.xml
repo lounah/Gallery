@@ -4,8 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-
     <string name="feed">Лента</string>
     <string name="files">Файлы</string>
     <string name="all_photos">Все фото</string>
@@ -13,24 +11,11 @@
     <string name="trash">Корзина</string>
     <string name="clear_space">Очистить кэш</string>
 
-    <string name="long_text">
-        Lorem ipsum dolor sit amet, cu verear philosophia reprehendunt usu, mea an eligendi reprimique. Hinc deseruisse ne mel. Pro ei probo nonumy indoctum. Justo aliquid appellantur ei eum. Ad iusto iisque vel.
+    <string name="error_fetching_data">Произошла ошибка при загрузке данных. Проверьте подключение к сети.</string>
 
-Ea vero corrumpit has, ut agam omnium intellegat mel. Prompta singulis ea nam, an quo cibo argumentum definitionem. Sed suas fugit inimicus id. Nusquam adversarium has eu, te tale justo solet mel. Posse melius timeam ad mea.
+    <string-array name="photo_options">
+        <item>Сохранить фото</item>
+        <item>Добавить в корзину</item>
+    </string-array>
 
-At vim habeo laoreet docendi, et quando vocent usu, ullum ludus quaeque per at. Has eu errem aliquando. Cum nobis interesset in, sit ea ridens saperet, sea no nostrum sensibus. Sale rebum repudiare eum ea. Stet admodum vel ea, at quo vocent equidem disputando, qui eu errem civibus dissentiet.
-
-Per dicit errem assentior at. Id his lorem invidunt, ea nec principes adolescens. Ad pro homero persius. At est labitur accusata accusamus, ut blandit definiebas quaerendum usu. Nam te tollit aliquip ocurreret, falli facilis moderatius vel no, eam et dicam iuvaret meliore.
-
-Dissentias delicatissimi signiferumque an usu. Ad reque liber invenire per. Vix ut docendi perpetua, cetero assentior necessitatibus est an, regione suavitate no per. Omnes maluisset eos an, expetenda aliquando similique ei usu. Vis falli aperiri an, inani honestatis his ut, ex mutat paulo theophrastus quo. Vix zril oportere ne, ei mel reque atomorum, an sint meis vim.
-        Lorem ipsum dolor sit amet, cu verear philosophia reprehendunt usu, mea an eligendi reprimique. Hinc deseruisse ne mel. Pro ei probo nonumy indoctum. Justo aliquid appellantur ei eum. Ad iusto iisque vel.
-
-Ea vero corrumpit has, ut agam omnium intellegat mel. Prompta singulis ea nam, an quo cibo argumentum definitionem. Sed suas fugit inimicus id. Nusquam adversarium has eu, te tale justo solet mel. Posse melius timeam ad mea.
-
-At vim habeo laoreet docendi, et quando vocent usu, ullum ludus quaeque per at. Has eu errem aliquando. Cum nobis interesset in, sit ea ridens saperet, sea no nostrum sensibus. Sale rebum repudiare eum ea. Stet admodum vel ea, at quo vocent equidem disputando, qui eu errem civibus dissentiet.
-
-Per dicit errem assentior at. Id his lorem invidunt, ea nec principes adolescens. Ad pro homero persius. At est labitur accusata accusamus, ut blandit definiebas quaerendum usu. Nam te tollit aliquip ocurreret, falli facilis moderatius vel no, eam et dicam iuvaret meliore.
-
-Dissentias delicatissimi signiferumque an usu. Ad reque liber invenire per. Vix ut docendi perpetua, cetero assentior necessitatibus est an, regione suavitate no per. Omnes maluisset eos an, expetenda aliquando similique ei usu. Vis falli aperiri an, inani honestatis his ut, ex mutat paulo theophrastus quo. Vix zril oportere ne, ei mel reque atomorum, an sint meis vim.
-    </string>
 </resources>
