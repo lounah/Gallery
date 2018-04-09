@@ -7,5 +7,7 @@ import com.lounah.gallery.data.entity.Photo;
 
 public interface PhotoOnClickListener {
 
-    void onItemClicked(@NonNull final Photo photo);
+    void onClick(@NonNull final Photo photo);
+
+    void onLongClick(@NonNull final Photo photo);
 }
