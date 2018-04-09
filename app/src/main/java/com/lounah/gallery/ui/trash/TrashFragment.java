@@ -1,4 +1,4 @@
-package com.lounah.gallery.ui.files;
+package com.lounah.gallery.ui.trash;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,15 +10,16 @@ import android.view.ViewGroup;
 
 import com.lounah.gallery.R;
 import com.lounah.gallery.ui.BaseFragment;
+import com.lounah.gallery.ui.MainActivity;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class FilesFragment extends BaseFragment {
+public class TrashFragment extends BaseFragment {
 
 
-    public static FilesFragment newInstance() {
-        return new FilesFragment();
+    public static TrashFragment newInstance() {
+        return new TrashFragment();
     }
 
     @Override
@@ -40,7 +41,6 @@ public class FilesFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         Timber.i("ON CREATE VIEW");
-
         View view = inflater.inflate(R.layout.fragment_files, container, false);
         ButterKnife.bind(this, view);
         return view;

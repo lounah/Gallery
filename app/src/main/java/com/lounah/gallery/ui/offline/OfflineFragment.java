@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.lounah.gallery.R;
 import com.lounah.gallery.ui.BaseFragment;
+import com.lounah.gallery.ui.MainActivity;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -40,7 +41,6 @@ public class OfflineFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         Timber.i("ON CREATE VIEW");
-
         View view = inflater.inflate(R.layout.fragment_offline, container, false);
         ButterKnife.bind(this, view);
         return view;
