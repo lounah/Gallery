@@ -10,12 +10,35 @@
     <string name="offline">Офлайн</string>
     <string name="trash">Корзина</string>
     <string name="clear_space">Очистить кэш</string>
+    <string name="dialog_clear_cache">Вы действительно хотите очистить кэш?</string>
+    <string name="cancel">Отмена</string>
+    <string name="yes">Да</string>
 
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="cancel_download">Отменить загрузку</string>
     <string name="error_fetching_data">Произошла ошибка при загрузке данных. Проверьте подключение к сети.</string>
+    <string name="error_delete">Произошла ошибка при удалении</string>
+    <string name="successfully_moved">Успешно перенесено</string>
+    <string name="error_moving_to_gallery">Не удалось перенести в галерею</string>
+    <string name="successfully_deleted">Успешно удалено</string>
+    <string name="successfully_downloaded">Успешно загружено</string>
+    <string name="error_downloading">Произошла ошибка при загрузке</string>
+    <string name="error_clear_cache">Не удалось очистить кэш</string>
+    <string name="photo_already_exists">Фотография уже есть в вашей галерее</string>
+    <string name="no_saved_photos">Загруженных фотографий нет</string>
+    <string name="no_deleted_photos">Корзина пуста</string>
+    <string name="trash_is_empty">Корзина пуста</string>
 
     <string-array name="photo_options">
         <item>Сохранить фото</item>
         <item>Добавить в корзину</item>
     </string-array>
+
+    <string-array name="trash_options">
+        <item>Перенести в галерею</item>
+        <item>Удалить из корзины</item>
+    </string-array>
+
+    <string name="of">из</string>
 
 </resources>

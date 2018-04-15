@@ -8,4 +8,6 @@
     <dimen name="tab_indicator_thickness">2dp</dimen>
     <dimen name="photo_greed_margin">1dp</dimen>
     <dimen name="photo_greed_height">200dp</dimen>
+    <dimen name="photo_trash_size">70dp</dimen>
+    <dimen name="app_margin">16dp</dimen>
 </resources>

@@ -19,11 +19,10 @@
     </group>
 
     <group
-        android:id="@+id/menu_prefs"
-        android:checkableBehavior="none">
+        android:id="@+id/menu_prefs">
         <item
             android:id="@+id/nav_clear_space"
-            android:checkable="true"
+            android:checkable="false"
             android:icon="@drawable/ic_clear_space_24dp"
             android:title="@string/clear_space">
         </item>

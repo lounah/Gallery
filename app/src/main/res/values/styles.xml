@@ -16,21 +16,30 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!--<style name="AppTabLayout" parent="Widget.Design.TabLayout">-->
-        <!--<item name="tabIndicatorColor">?attr/colorAccent</item>-->
-        <!--<item name="tabIndicatorHeight">4dp</item>-->
-        <!--<item name="tabPaddingStart">6dp</item>-->
-        <!--<item name="tabPaddingEnd">6dp</item>-->
-        <!--<item name="tabBackground">?attr/selectableItemBackground</item>-->
-        <!--<item name="tabTextAppearance">@style/AppTabTextAppearance</item>-->
-        <!--<item name="tabSelectedTextColor">@color/colorPrimaryDark</item>-->
-    <!--</style>-->
+    <style name="PhotoDetailsAppBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
 
-    <!--<style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">-->
-        <!--<item name="android:textSize">30sp</item>-->
-        <!--<item name="android:textColor">@color/grey</item>-->
-        <!--<item name="textAllCaps">true</item>-->
-    <!--</style>-->
+    <style name="MyActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TitleItem">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">23sp</item>
+    </style>
+
+    <style name="SubtitleItem">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="EmptyView">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_margin">@dimen/app_margin</item>
+    </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,12 +10,10 @@
     android:layout_height="match_parent">
 
 <android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_photos"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_trash"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="2dp"
-    tools:listitem="@layout/item_photo"
-    tools:emptyView="@id/tv_empty"/>
+    android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/tv_empty"
@@ -25,8 +22,8 @@
         android:layout_centerInParent="true"
         style="@style/EmptyView"
         android:visibility="gone"
-        android:text="@string/no_saved_photos"/>
+        android:text="@string/no_deleted_photos"/>
 
-    </RelativeLayout>
+</RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>
