@@ -3,7 +3,6 @@ package com.lounah.gallery.data.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.os.AsyncTask;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,21 +14,23 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public abstract class NetworkBoundResource<T> {
 
     private final MediatorLiveData<Resource<T>> result = new MediatorLiveData<>();
 
     @MainThread
-    NetworkBoundResource() {
+    NetworkBoundResource(final boolean forceRefresh) {
+
         result.setValue(Resource.loading(null));
         LiveData<T> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
             result.removeSource(dbSource);
-            if (shouldFetch(data)) {
+            if (getNumRows() == 0 || forceRefresh) {
                 fetchFromNetwork(dbSource);
             } else {
-                result.addSource(dbSource, newData -> result.setValue(Resource.success(newData)));
+                result.addSource(dbSource, newData -> result.postValue(Resource.success(newData)));
             }
         });
     }
@@ -57,18 +58,18 @@ public abstract class NetworkBoundResource<T> {
         Completable.fromAction(() -> {
            saveCallResult(response);
         }).subscribeOn(Schedulers.io())
-                .subscribe(() -> result.addSource(loadFromDb(), newData -> result.setValue(Resource.success(newData))));
+                .subscribe(() -> result.addSource(loadFromDb(), newData -> result.postValue(Resource.success(newData))));
     }
 
     @WorkerThread
     protected abstract void saveCallResult(@NonNull T data);
 
-    @MainThread
-    protected abstract boolean shouldFetch(@Nullable T data);
-
     @NonNull
     @MainThread
     protected abstract LiveData<T> loadFromDb();
+
+    @WorkerThread
+    protected abstract int getNumRows();
 
     @NonNull
     @MainThread
