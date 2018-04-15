@@ -8,6 +8,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+
 @Dao
 public interface BaseDao<T> {
 
@@ -25,8 +26,4 @@ public interface BaseDao<T> {
 
     @Delete
     void delete(T object);
-
-    @Delete
-    void deleteAll(List<T> objects);
-
 }
