@@ -5,16 +5,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 
 import com.lounah.gallery.data.entity.Photo;
+import com.lounah.gallery.data.entity.Trash;
 
 import java.util.List;
 
-public class PhotoDiffUtilCallback extends DiffUtil.Callback {
+public class TrashDiffUtilCallback extends DiffUtil.Callback {
 
-    private List<Photo> oldPhotos;
-    private List<Photo> newPhotos;
+    private List<Trash> oldPhotos;
+    private List<Trash> newPhotos;
 
-    public PhotoDiffUtilCallback(@NonNull final List<Photo> newPhotos,
-                                 @NonNull final List<Photo> oldPhotos) {
+    public TrashDiffUtilCallback(@NonNull final List<Trash> newPhotos,
+                                 @NonNull final List<Trash> oldPhotos) {
         this.newPhotos = newPhotos;
         this.oldPhotos = oldPhotos;
     }
