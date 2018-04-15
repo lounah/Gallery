@@ -1,6 +1,7 @@
 package com.lounah.gallery.di;
 
 import com.lounah.gallery.ui.feed.FeedFragment;
+import com.lounah.gallery.ui.feed.photodetails.PhotoDetailsFragment;
 import com.lounah.gallery.ui.offline.OfflineFragment;
 import com.lounah.gallery.ui.trash.TrashFragment;
 
@@ -17,5 +18,8 @@ import dagger.android.ContributesAndroidInjector;
 
     @ContributesAndroidInjector
     abstract TrashFragment trashFragment();
+
+    @ContributesAndroidInjector
+    abstract PhotoDetailsFragment photoDetailsFragment();
 
 }

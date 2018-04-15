@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.lounah.gallery.ui.GalleryViewModelFactory;
 import com.lounah.gallery.ui.feed.FeedViewModel;
+import com.lounah.gallery.ui.offline.OfflineFragmentViewModel;
+import com.lounah.gallery.ui.trash.TrashViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -17,6 +19,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeedViewModel.class)
     abstract ViewModel bindFeedViewModel(FeedViewModel feedViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OfflineFragmentViewModel.class)
+    abstract ViewModel bindOfflineFragmentViewModel(OfflineFragmentViewModel offlineFragmentViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TrashViewModel.class)
+    abstract ViewModel bindTrashViewModel(TrashViewModel trashViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(GalleryViewModelFactory factory);

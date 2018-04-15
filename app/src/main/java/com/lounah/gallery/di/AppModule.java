@@ -9,9 +9,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lounah.gallery.data.datasource.local.AppDatabase;
 import com.lounah.gallery.data.datasource.local.feed.FeedDao;
+import com.lounah.gallery.data.datasource.local.trash.TrashDao;
 import com.lounah.gallery.data.datasource.remote.GalleryService;
 import com.lounah.gallery.data.entity.Photo;
-import com.lounah.gallery.data.repository.FeedRepository;
+import com.lounah.gallery.data.repository.PhotosRepository;
 import com.lounah.gallery.util.GalleryJsonDeserializer;
 
 
@@ -28,11 +29,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module(includes = {ViewModelModule.class})
 class AppModule {
 
+    private static final String API_URL = "https://cloud-api.yandex.net:443/v1/disk/";
+    private static final String APP_DB_NAME = "gallery.db";
+
     @Singleton
     @Provides
     GalleryService provideGalleryRemoteService() {
         return new Retrofit.Builder()
-                .baseUrl("https://cloud-api.yandex.net:443/v1/disk/")
+                .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .registerTypeAdapter(new TypeToken<List<Photo>>(){}.getType(),
                                 new GalleryJsonDeserializer()).create()))
@@ -44,19 +48,29 @@ class AppModule {
     @Singleton
     @Provides
     AppDatabase provideDb(Application app) {
-        return Room.databaseBuilder(app, AppDatabase.class,"gallery.db").fallbackToDestructiveMigration().build();
+        return Room.databaseBuilder(app, AppDatabase.class, APP_DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     @Singleton
     @Provides
-    FeedDao provideUserDao(AppDatabase db) {
+    FeedDao provideFeedDao(AppDatabase db) {
         return db.feedDao();
     }
 
     @Singleton
     @Provides
-    FeedRepository provideFeedRepository(@NonNull final GalleryService api, @NonNull final FeedDao dao) {
-        return new FeedRepository(api, dao);
+    TrashDao provideTrashDao(AppDatabase db) {
+        return db.trashDao();
+    }
+
+    @Singleton
+    @Provides
+    PhotosRepository providePhotosRepository(@NonNull final GalleryService api,
+                                           @NonNull final FeedDao feedDao,
+                                           @NonNull final TrashDao trashDao) {
+        return new PhotosRepository(api, feedDao, trashDao);
     }
 
 
