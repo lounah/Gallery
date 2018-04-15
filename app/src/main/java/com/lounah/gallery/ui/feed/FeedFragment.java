@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.lounah.gallery.R;
 import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.ui.BaseFragment;
-import com.lounah.gallery.ui.MainActivity;
+import com.lounah.gallery.ui.navigation.NavigationController;
+import com.lounah.gallery.util.FileUtil;
 
 import java.util.List;
 
@@ -29,7 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class FeedFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FeedFragment extends BaseFragment implements
+        SwipeRefreshLayout.OnRefreshListener,
+        OptionsDialogFragment.OnClickListener,
+        DownloadPhotoDialogFragment.DownloadPhotoCallback {
 
     @BindView(R.id.rv_feed)
     RecyclerView rvFeed;
@@ -40,21 +41,45 @@ public class FeedFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    @Inject
+    NavigationController mNavigationController;
+
+    private static final String TAG = "FEED_FRAGMENT";
+
     private FeedViewModel viewModel;
     private FeedAdapter adapter;
-    private OptionsDialog optionsDialog;
-    private static final String TAG = "FEED_FRAGMENT";
+    private DownloadPhotoDialogFragment downloadFragment;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(FeedViewModel.class);
-        viewModel.refreshFeed();
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+            viewModel.getUserFeed().observe(this, feed -> {
+            switch (feed.status) {
+                case ERROR:
+                    processErrorState(feed.data);
+                    break;
+                case LOADING:
+                    processLoadingState(feed.data);
+                    break;
+                case SUCCESS:
+                    if (feed.data != null)
+                        processSuccessState(feed.data);
+                    break;
+            }
+        });
+
+        viewModel.getSuccessDeletionResult().observe(this, isSuccessful -> {
+            if (isSuccessful) viewModel.refreshFeed(false); else showToast(R.string.error_delete);
+        });
     }
 
     @Nullable
@@ -70,32 +95,14 @@ public class FeedFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel.getUserFeed().observe(this, feed -> {
-            switch (feed.status) {
-                case ERROR:
-                    processErrorState(feed.data);
-                    break;
-                case LOADING:
-                    processLoadingState(feed.data);
-                    break;
-                case SUCCESS:
-                    if (feed.data != null)
-                        processSuccessState(feed.data);
-                    break;
-            }
-        });
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+        viewModel.refreshFeed(false);
     }
 
     private void initializeAdapter() {
         adapter = new FeedAdapter(new PhotoOnClickListener() {
             @Override
-            public void onClick(@NonNull Photo photo) {
-                openPhotoDetails(photo);
+            public void onClick(final int position) {
+                openPhotoDetails(position);
             }
 
             @Override
@@ -118,8 +125,6 @@ public class FeedFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void processSuccessState(@NonNull final List<Photo> feed) {
         onHideLoadingView();
         onHideSwipeLoadingView();
-        Timber.i("SUCCESS");
-        Toast.makeText(getContext(), "SUCC " + feed.size(), Toast.LENGTH_SHORT).show();
         adapter.updateDataSet(feed);
     }
 
@@ -128,13 +133,13 @@ public class FeedFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         adapter.updateDataSet(feed);
     }
 
-    private void openPhotoDetails(@NonNull final Photo photo) {
-
+    private void openPhotoDetails(final int position) {
+        mNavigationController.navigateToFeedPhotoDetails(position);
     }
 
     private void showOptionsDialog(@NonNull final Photo photo) {
-        optionsDialog = OptionsDialog.newInstance(photo.getFileDownloadLink());
-        optionsDialog.show(getFragmentManager(), TAG);
+        OptionsDialogFragment optionsDialog = OptionsDialogFragment.newInstance(photo);
+        optionsDialog.show(FeedFragment.this.getChildFragmentManager(), TAG);
     }
 
     private void onShowLoadingView() {
@@ -158,6 +163,39 @@ public class FeedFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        viewModel.refreshFeed();
+        viewModel.refreshFeed(true);
     }
+
+    @Override
+    public void onSavePhotoClicked(@NonNull Photo photo) {
+        downloadFragment = DownloadPhotoDialogFragment
+                .newInstance(photo);
+        downloadFragment.show(FeedFragment.this.getChildFragmentManager(), TAG);
+
+    }
+
+    @Override
+    public void onDeletePhotoClicked(@NonNull Photo photo) {
+        viewModel.deletePhoto(photo);
+    }
+
+    @Override
+    public void onDownloadCompletedSuccessfully() {
+        downloadFragment.dismiss();
+        Toast.makeText(getActivity(), R.string.successfully_downloaded, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDownloadCompletedWithError() {
+        downloadFragment.dismiss();
+        Toast.makeText(getActivity(), R.string.error_downloading, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPhotoAlreadyExists() {
+        downloadFragment.dismiss();
+        Toast.makeText(getActivity(), R.string.photo_already_exists, Toast.LENGTH_SHORT).show();
+    }
+
+
 }
