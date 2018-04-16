@@ -35,17 +35,22 @@ public class Photo implements Parcelable {
     @SerializedName("created")
     private String date;
 
+    private boolean inTrash;
+
     @Ignore
     public Photo() {}
 
-    public Photo(long size, String path, String previewDownloadLink, String name, String fileDownloadLink, String date) {
+    public Photo(long size, String path, String previewDownloadLink, String name,
+                 String fileDownloadLink, String date, boolean inTrash) {
         this.size = size;
         this.previewDownloadLink = previewDownloadLink;
         this.name = name;
         this.fileDownloadLink = fileDownloadLink;
         this.date = date;
         this.path = path;
+        this.inTrash = inTrash;
     }
+
 
     protected Photo(Parcel in) {
         id = in.readString();
@@ -55,6 +60,7 @@ public class Photo implements Parcelable {
         name = in.readString();
         fileDownloadLink = in.readString();
         date = in.readString();
+        inTrash = in.readByte() != 0;
     }
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {
@@ -102,13 +108,18 @@ public class Photo implements Parcelable {
         this.id = id;
     }
 
-    public void setSize(long size) {
-        this.size = size;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isInTrash() {
+        return inTrash;
+    }
+
+    public void setInTrash(boolean inTrash) {
+        this.inTrash = inTrash;
+    }
+
 
     @Override
     public int describeContents() {
@@ -124,5 +135,6 @@ public class Photo implements Parcelable {
         dest.writeString(name);
         dest.writeString(fileDownloadLink);
         dest.writeString(date);
+        dest.writeByte((byte) (inTrash ? 1 : 0));
     }
 }

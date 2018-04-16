@@ -7,6 +7,10 @@ import static com.lounah.gallery.data.entity.Status.ERROR;
 import static com.lounah.gallery.data.entity.Status.LOADING;
 import static com.lounah.gallery.data.entity.Status.SUCCESS;
 
+/*
+    Класс-обертка, созданный для того, чтобы можно было удобно
+    обрабатывать состояние запроса (Loading, Error, Success)
+ */
 public class Resource<T> {
 
     @NonNull
