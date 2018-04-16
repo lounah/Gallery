@@ -5,7 +5,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
 import com.lounah.gallery.data.entity.Resource;
@@ -16,6 +15,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+/*
+    Реализация NetworkBoundResource, показанного в Google's guide to App Architecture
+ */
 public abstract class NetworkBoundResource<T> {
 
     private final MediatorLiveData<Resource<T>> result = new MediatorLiveData<>();

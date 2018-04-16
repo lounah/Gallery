@@ -2,17 +2,12 @@ package com.lounah.gallery.data.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
 
-import com.lounah.gallery.data.datasource.local.feed.FeedDao;
-import com.lounah.gallery.data.datasource.local.trash.TrashDao;
+import com.lounah.gallery.data.datasource.local.PhotosDao;
 import com.lounah.gallery.data.datasource.remote.GalleryService;
 import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.data.entity.Resource;
-import com.lounah.gallery.data.entity.Trash;
 
 import java.io.File;
 import java.util.List;
@@ -22,7 +17,6 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
 import timber.log.Timber;
@@ -33,18 +27,15 @@ public class PhotosRepository {
     private static final String QUERY_MEDIA_TYPE = "image";
     private static final String QUERY_UPLOAD_FIELD = "href";
 
-    private final FeedDao feedDao;
-    private final TrashDao trashDao;
+    private final PhotosDao photosDao;
     private final GalleryService api;
 
     @Inject
     public PhotosRepository(
             @NonNull final GalleryService api,
-            @NonNull final FeedDao feedDao,
-            @NonNull final TrashDao trashDao) {
+            @NonNull final PhotosDao photosDao) {
         this.api = api;
-        this.feedDao = feedDao;
-        this.trashDao = trashDao;
+        this.photosDao = photosDao;
     }
 
     public LiveData<Resource<List<Photo>>> getFeed(final boolean forceRefresh) {
@@ -52,13 +43,13 @@ public class PhotosRepository {
 
                 @Override
                 protected void saveCallResult(@NonNull List<Photo> photos) {
-                    feedDao.insertAll(photos);
+                    photosDao.insertAll(photos);
                 }
 
                 @NonNull
                 @Override
                 protected LiveData<List<Photo>> loadFromDb() {
-                    return feedDao.getPhotos();
+                    return photosDao.getFeed();
                 }
 
                 @Override
@@ -80,21 +71,22 @@ public class PhotosRepository {
             }.getAsLiveData();
     }
 
-    public LiveData<List<Trash>> getDeletedPhotos() {
-        return trashDao.getDeletedPhotos();
+    public LiveData<List<Photo>> getDeletedPhotos() {
+        return photosDao.getDeletedPhotos();
     }
 
-    public Completable deletePhoto(@NonNull final Photo photo) {
+
+
+    public Completable deletePhoto(@NonNull Photo photo) {
         return api.deletePhoto(photo.getPath(), false).doOnComplete(() -> {
-            feedDao.delete(photo.getPath());
-            trashDao.insert(new Trash(photo.getId(), photo.getFileDownloadLink(),
-                    photo.getSize(), photo.getName(), photo.getDate()));
+           photo.setInTrash(true);
+           photosDao.update(photo);
         });
     }
 
     private int getNumRowsFromFeed() {
        final int[] rows = new int[1];
-       Completable.fromAction(() -> rows[0] = feedDao.getNumRows())
+       Completable.fromAction(() -> rows[0] = photosDao.getPersistedPhotosSize())
                .subscribeOn(Schedulers.io())
                .blockingAwait();
        return rows[0];
@@ -119,17 +111,20 @@ public class PhotosRepository {
                 .toCompletable();
     }
 
-    public Completable deletePhotoFromTrash(@NonNull final Trash photo) {
-        return Completable.fromAction(() -> trashDao.delete(photo));
+    public Completable deletePhotoFromTrash(@NonNull final Photo photo) {
+        return Completable.fromAction(() -> photosDao.delete(photo));
     }
 
-    public Completable movePhotoToGallery(@NonNull final Trash photo) {
+    public Completable movePhotoToGallery(@NonNull Photo photo) {
         return api.movePhotoToGallery(photo.getName())
-                .doOnComplete(() -> trashDao.delete(photo));
+                .doOnComplete(() -> {
+                photo.setInTrash(false);
+                photosDao.update(photo);
+        });
     }
 
     public Completable clearTrash() {
-        return api.clearTrash().doOnComplete(trashDao::eraseAll);
+        return api.clearTrash().doOnComplete(photosDao::eraseAll);
     }
 
 }
