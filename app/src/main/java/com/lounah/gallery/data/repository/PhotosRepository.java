@@ -3,6 +3,7 @@ package com.lounah.gallery.data.repository;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.lounah.gallery.data.datasource.local.PhotosDao;
 import com.lounah.gallery.data.datasource.remote.GalleryService;
@@ -84,7 +85,7 @@ public class PhotosRepository {
         });
     }
 
-    private int getNumRowsFromFeed() {
+    public int getNumRowsFromFeed() {
        final int[] rows = new int[1];
        Completable.fromAction(() -> rows[0] = photosDao.getPersistedPhotosSize())
                .subscribeOn(Schedulers.io())
