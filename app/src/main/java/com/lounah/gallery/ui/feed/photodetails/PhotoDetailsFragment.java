@@ -128,6 +128,9 @@ public class PhotoDetailsFragment extends BaseFragment {
         viewPager.setCurrentItem(position);
     }
 
+    /*
+        Это ужасно
+     */
     private void setUpToolbar() {
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
