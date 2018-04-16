@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.lounah.gallery.R;
-import com.lounah.gallery.data.entity.Trash;
-import com.lounah.gallery.util.TrashDiffUtilCallback;
+import com.lounah.gallery.data.entity.Photo;
+import com.lounah.gallery.util.PhotoDiffUtilCallback;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ import butterknife.OnLongClick;
 
 public class TrashAdapter extends RecyclerView.Adapter<TrashAdapter.ViewHolder> {
 
-    private final List<Trash> photos;
+    private final List<Photo> photos;
     private final ItemClickListener clickListener;
 
     TrashAdapter(@NonNull final ItemClickListener clickListener) {
@@ -46,10 +47,11 @@ public class TrashAdapter extends RecyclerView.Adapter<TrashAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull TrashAdapter.ViewHolder holder, int position) {
-        final Trash photo = photos.get(position);
-        
+
+        final Photo photo = photos.get(position);
+
         Glide.with(holder.itemView.getContext())
-                .load(photo.getDownloadLink())
+                .load(photo.getFileDownloadLink())
                 .apply(RequestOptions.placeholderOf(R.drawable.placeholder))
                 .into(holder.photo);
 
@@ -105,10 +107,10 @@ public class TrashAdapter extends RecyclerView.Adapter<TrashAdapter.ViewHolder> 
 
     }
 
-    void updateDataSet(@Nullable final List<Trash> photos) {
+    void updateDataSet(@Nullable final List<Photo> photos) {
         if (photos != null) {
 
-            final TrashDiffUtilCallback diffCallback = new TrashDiffUtilCallback(photos, this.photos);
+            final PhotoDiffUtilCallback diffCallback = new PhotoDiffUtilCallback(photos, this.photos);
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
             this.photos.clear();

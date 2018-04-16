@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.lounah.gallery.R;
-import com.lounah.gallery.data.entity.Trash;
+import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.ui.BaseFragment;
 import javax.inject.Inject;
 import butterknife.BindView;
@@ -130,7 +130,7 @@ public class TrashFragment extends BaseFragment implements
         if (swipeRefreshLayout.isRefreshing())
             swipeRefreshLayout.setRefreshing(false);
     }
-    private void showOptionsDialog(@NonNull final Trash photo) {
+    private void showOptionsDialog(@NonNull final Photo photo) {
         TrashOptionsDialogFragment optionsDialog = TrashOptionsDialogFragment.newInstance(photo);
         optionsDialog.show(TrashFragment.this.getChildFragmentManager(), TAG);
     }
@@ -141,12 +141,12 @@ public class TrashFragment extends BaseFragment implements
     }
 
     @Override
-    public void onMoveToGalleryClicked(@NonNull Trash photo) {
+    public void onMoveToGalleryClicked(@NonNull Photo photo) {
         viewModel.movePhotoToGallery(photo);
     }
 
     @Override
-    public void onDeletePermanentlyClicked(@NonNull Trash photo) {
+    public void onDeletePermanentlyClicked(@NonNull Photo photo) {
         viewModel.deletePhotoPermanently(photo);
     }
 }

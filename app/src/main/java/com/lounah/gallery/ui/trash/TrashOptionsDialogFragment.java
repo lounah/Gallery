@@ -8,14 +8,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import com.lounah.gallery.R;
-import com.lounah.gallery.data.entity.Trash;
+import com.lounah.gallery.data.entity.Photo;
 
 public class TrashOptionsDialogFragment extends DialogFragment {
 
     private static final String INITIAL_RESOURCE_TAG = "INITIAL_RESOURCE_TAG";
     private OnClickListener clickListener;
 
-    public static TrashOptionsDialogFragment newInstance(final Trash photo) {
+    public static TrashOptionsDialogFragment newInstance(final Photo photo) {
         TrashOptionsDialogFragment frag = new TrashOptionsDialogFragment();
         Bundle args = new Bundle();
         args.putParcelable(INITIAL_RESOURCE_TAG, photo);
@@ -33,7 +33,7 @@ public class TrashOptionsDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final Trash photo = getArguments().getParcelable(INITIAL_RESOURCE_TAG);
+        final Photo photo = getArguments().getParcelable(INITIAL_RESOURCE_TAG);
 
         return new AlertDialog.Builder(getContext())
                 .setItems(R.array.trash_options, (dialog, which) -> {
@@ -51,9 +51,9 @@ public class TrashOptionsDialogFragment extends DialogFragment {
 
     public interface OnClickListener {
 
-        void onMoveToGalleryClicked(@NonNull final Trash photo);
+        void onMoveToGalleryClicked(@NonNull final Photo photo);
 
-        void onDeletePermanentlyClicked(@NonNull final Trash photo);
+        void onDeletePermanentlyClicked(@NonNull final Photo photo);
     }
 
 }
