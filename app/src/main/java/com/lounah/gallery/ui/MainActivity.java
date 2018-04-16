@@ -173,11 +173,12 @@ public class MainActivity extends DaggerAppCompatActivity
 
     @Override
     public void onClearCache() {
-        Completable.fromAction(() -> Glide.getPhotoCacheDir(this).delete())
+        Completable.fromAction(() -> Glide.get(this).clearDiskCache())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(() -> Glide.get(this).clearMemory())
                 .subscribe(() -> clearCacheOptionsDialog.dismiss(),
                         e -> Toast.makeText(this, R.string.error_clear_cache,
-                                Toast.LENGTH_SHORT).show());
+                                    Toast.LENGTH_SHORT).show());
     }
 }
