@@ -17,7 +17,6 @@ import com.lounah.gallery.R;
 import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.ui.BaseFragment;
 import com.lounah.gallery.ui.navigation.NavigationController;
-import com.lounah.gallery.util.FileUtil;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class FeedFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -55,8 +53,6 @@ public class FeedFragment extends BaseFragment implements
         super.onAttach(context);
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(FeedViewModel.class);
     }
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,20 +112,17 @@ public class FeedFragment extends BaseFragment implements
     }
 
     private void processErrorState(@Nullable final List<Photo> photos) {
-        onHideLoadingView();
         onHideSwipeLoadingView();
         showToast(R.string.error_fetching_data);
         adapter.updateDataSet(photos);
     }
 
     private void processSuccessState(@NonNull final List<Photo> feed) {
-        onHideLoadingView();
         onHideSwipeLoadingView();
         adapter.updateDataSet(feed);
     }
 
     private void processLoadingState(@Nullable final List<Photo> feed) {
-        onShowLoadingView();
         adapter.updateDataSet(feed);
     }
 
@@ -140,14 +133,6 @@ public class FeedFragment extends BaseFragment implements
     private void showOptionsDialog(@NonNull final Photo photo) {
         OptionsDialogFragment optionsDialog = OptionsDialogFragment.newInstance(photo);
         optionsDialog.show(FeedFragment.this.getChildFragmentManager(), TAG);
-    }
-
-    private void onShowLoadingView() {
-
-    }
-
-    private void onHideLoadingView() {
-
     }
 
     private void onHideSwipeLoadingView() {

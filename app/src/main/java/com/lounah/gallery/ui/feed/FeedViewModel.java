@@ -21,6 +21,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FeedViewModel extends ViewModel {
 
+    /*
+        observer резульатата удаления фотографии;
+        сделан для того, чтобы фрагмент не обращался к репозиторию за результатом
+        напрямую
+     */
     private final MutableLiveData<Boolean> successDeletionResult = new MutableLiveData<>();
     private final MutableLiveData<Boolean> refreshState = new MutableLiveData<>();
     private final CompositeDisposable disposables = new CompositeDisposable();
@@ -53,6 +58,10 @@ public class FeedViewModel extends ViewModel {
                     e -> successDeletionResult.postValue(false)));
     }
 
+    /*
+         forceRefresh(true/false) -- обновить, обратившись к серверу/обновить,
+         обратившись к локальной БД
+     */
     void refreshFeed(final boolean forceRefresh) {
         refreshState.setValue(forceRefresh);
     }
