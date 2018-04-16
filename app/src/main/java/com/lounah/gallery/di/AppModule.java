@@ -8,8 +8,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lounah.gallery.data.datasource.local.AppDatabase;
-import com.lounah.gallery.data.datasource.local.feed.FeedDao;
-import com.lounah.gallery.data.datasource.local.trash.TrashDao;
+import com.lounah.gallery.data.datasource.local.PhotosDao;
 import com.lounah.gallery.data.datasource.remote.GalleryService;
 import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.data.repository.PhotosRepository;
@@ -55,22 +54,15 @@ class AppModule {
 
     @Singleton
     @Provides
-    FeedDao provideFeedDao(AppDatabase db) {
-        return db.feedDao();
-    }
-
-    @Singleton
-    @Provides
-    TrashDao provideTrashDao(AppDatabase db) {
-        return db.trashDao();
+    PhotosDao providePhotosDao(AppDatabase db) {
+        return db.photosDao();
     }
 
     @Singleton
     @Provides
     PhotosRepository providePhotosRepository(@NonNull final GalleryService api,
-                                           @NonNull final FeedDao feedDao,
-                                           @NonNull final TrashDao trashDao) {
-        return new PhotosRepository(api, feedDao, trashDao);
+                                             @NonNull final PhotosDao photosDao) {
+        return new PhotosRepository(api, photosDao);
     }
 
 
