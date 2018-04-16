@@ -15,7 +15,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.lounah.gallery.R;
 import com.lounah.gallery.data.entity.Photo;
 import com.lounah.gallery.util.PhotoDiffUtilCallback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
