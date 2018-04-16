@@ -11,6 +11,10 @@ import com.lounah.gallery.data.entity.Photo;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/*
+    Обычный десериализатор. Позволяет парсить полученный от API Диска JSON,
+    не создавая лишних классов, т.е. напрямую в объект
+ */
 public class GalleryJsonDeserializer implements JsonDeserializer<List<Photo>> {
 
     private static final String ITEMS = "items";

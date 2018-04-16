@@ -4,6 +4,10 @@ import android.os.Environment;
 
 import java.io.File;
 
+/*
+    Не знаю, насколько этот класс нам нужен;
+    Позволяет получить ссылку на директорию, в котором приложение хранит сохраненные фото
+ */
 public class FileUtil {
 
     private static final String APP_DIRECTORY_NAME = "lounah";
