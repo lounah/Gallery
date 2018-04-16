@@ -10,18 +10,23 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.lounah.gallery.R;
+import com.lounah.gallery.ui.feed.PhotoOnClickListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class OfflineFragmentRvAdapter extends RecyclerView.Adapter<OfflineFragmentRvAdapter.ViewHolder> {
 
     private final List<String> paths;
+    private final OnClickListener clickListener;
 
-    OfflineFragmentRvAdapter() {
+    OfflineFragmentRvAdapter(@NonNull final OnClickListener clickListener) {
         paths = new ArrayList<>();
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -55,6 +60,10 @@ public class OfflineFragmentRvAdapter extends RecyclerView.Adapter<OfflineFragme
             ButterKnife.bind(this, itemView);
         }
 
+        @OnClick(R.id.iv_photo)
+        void onPhotoClicked() {
+            clickListener.onClick(paths.get(getAdapterPosition()));
+        }
 
     }
 

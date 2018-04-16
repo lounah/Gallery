@@ -45,22 +45,6 @@ public class OfflineFragmentViewModel extends ViewModel {
         refreshState.setValue(true);
     }
 
-//    LiveData<List<String>> getSavedPhotosPaths(@NonNull final File dir) {
-//        if (savedPhotosPaths == null) {
-//            savedPhotosPaths = new MutableLiveData<>();
-//            disposables.add(loadFilePaths(dir)
-//                    .subscribe(paths -> savedPhotosPaths.setValue(paths),
-//                            throwable -> savedPhotosPaths.setValue(null)));
-//        }
-//         return savedPhotosPaths;
-//    }
-//
-//    private Single<List<String>> loadFilePaths(@NonNull final File dir) {
-//        return repository.getSavedPhotosFilePaths(dir)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
-//    }
-
     @Override
     protected void onCleared() {
         super.onCleared();

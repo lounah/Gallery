@@ -3,9 +3,13 @@ package com.lounah.gallery.ui.offline;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,13 +22,17 @@ import com.lounah.gallery.R;
 import com.lounah.gallery.ui.BaseFragment;
 import com.lounah.gallery.util.FileUtil;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
-public class OfflineFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class OfflineFragment extends BaseFragment
+        implements SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -95,7 +103,7 @@ public class OfflineFragment extends BaseFragment implements SwipeRefreshLayout.
     }
 
     private void initializeAdapter() {
-        adapter = new OfflineFragmentRvAdapter();
+        adapter = new OfflineFragmentRvAdapter(this::onOpenImage);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         rvPhotos.setLayoutManager(layoutManager);
         rvPhotos.setAdapter(adapter);
@@ -109,5 +117,17 @@ public class OfflineFragment extends BaseFragment implements SwipeRefreshLayout.
     @Override
     public void onRefresh() {
         viewModel.refresh();
+    }
+
+    /*
+        Открывает фотографию по заданному URI в галерее
+     */
+    private void onOpenImage(@NonNull final String path) {
+        final Intent goToGalleryIntent = new Intent(Intent.ACTION_VIEW);
+        goToGalleryIntent.setDataAndType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+                        FileProvider.getUriForFile(getContext(),  "com.lounah.gallery.provider", new File(path))
+                        : Uri.fromFile(new File(path)),
+                "image/*").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(goToGalleryIntent);
     }
 }
