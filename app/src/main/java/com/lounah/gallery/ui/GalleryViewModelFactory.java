@@ -11,6 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+/*
+    Провайд нужных нам ViewModel в одном месте без постоянного пересоздания
+ */
 @Singleton
 public class GalleryViewModelFactory implements ViewModelProvider.Factory {
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
