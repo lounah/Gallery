@@ -1,7 +1,12 @@
 package com.lounah.gallery.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +17,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.lounah.gallery.R;
 import com.lounah.gallery.ui.feed.FeedFragment;
 import com.lounah.gallery.ui.navigation.NavigationController;
@@ -20,6 +30,8 @@ import com.lounah.gallery.ui.trash.TrashFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -56,6 +68,8 @@ public class MainActivity extends DaggerAppCompatActivity
     private static final int OFFLINE_POSITION = 1;
     private static final int TRASH_POSITION = 2;
 
+    private static final int EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 0;
+
     private static final String TAG = "MAIN_ACTIVITY";
 
     private ClearCacheDialogFragment clearCacheOptionsDialog;
@@ -64,7 +78,38 @@ public class MainActivity extends DaggerAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initUI();
+        requestPermissionsOrInitUI();
+    }
+
+    private void requestPermissionsOrInitUI() {
+
+        final int writeExternalStoragePermission = ContextCompat
+                .checkSelfPermission(MainActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        final int readExternalStoragePermission = ContextCompat
+                .checkSelfPermission(MainActivity.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED ||
+                readExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE},
+                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+        } else initUI();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            initUI();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void initUI() {
@@ -181,4 +226,5 @@ public class MainActivity extends DaggerAppCompatActivity
                         e -> Toast.makeText(this, R.string.error_clear_cache,
                                     Toast.LENGTH_SHORT).show());
     }
+
 }
