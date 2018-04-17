@@ -3,7 +3,6 @@ package com.lounah.gallery.ui;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,11 +16,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.lounah.gallery.R;
 import com.lounah.gallery.ui.feed.FeedFragment;
 import com.lounah.gallery.ui.navigation.NavigationController;
@@ -30,8 +24,6 @@ import com.lounah.gallery.ui.trash.TrashFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
