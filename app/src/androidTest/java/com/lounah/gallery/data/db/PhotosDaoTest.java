@@ -1,11 +1,11 @@
-package com.lounah.gallery.data;
+package com.lounah.gallery.data.db;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.lounah.gallery.data.util.LiveDataTestUtil;
 import com.lounah.gallery.data.datasource.local.AppDatabase;
 import com.lounah.gallery.data.datasource.local.PhotosDao;
 import com.lounah.gallery.data.entity.Photo;

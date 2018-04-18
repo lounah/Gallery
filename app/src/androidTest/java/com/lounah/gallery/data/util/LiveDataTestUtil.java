@@ -1,4 +1,4 @@
-package com.lounah.gallery.data;
+package com.lounah.gallery.data.util;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
