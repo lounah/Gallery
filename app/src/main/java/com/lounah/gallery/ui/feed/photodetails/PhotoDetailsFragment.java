@@ -43,7 +43,6 @@ public class PhotoDetailsFragment extends BaseFragment {
     private int mDataSetSize;
     private int mInitialPosition;
 
-
     public static PhotoDetailsFragment newInstance(final int itemPosition) {
         PhotoDetailsFragment fragment = new PhotoDetailsFragment();
         Bundle args = new Bundle();
@@ -129,7 +128,7 @@ public class PhotoDetailsFragment extends BaseFragment {
     }
 
     /*
-        Это ужасно
+        Это ужасно, я знаю
      */
     private void setUpToolbar() {
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
@@ -144,6 +143,5 @@ public class PhotoDetailsFragment extends BaseFragment {
         outState.putInt(CURRENT_POSITION_KEY, mCurrentPosition);
         super.onSaveInstanceState(outState);
     }
-
 }
 
