@@ -180,8 +180,7 @@ public class FeedFragment extends BaseFragment implements
     @Override
     public void onDownloadCompletedWithError(@NonNull final String error) {
         downloadFragment.dismiss();
-        //Toast.makeText(getActivity(), R.string.error_downloading, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.error_downloading, Toast.LENGTH_SHORT).show();
     }
 
     @Override
