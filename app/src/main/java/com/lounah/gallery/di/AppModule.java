@@ -65,5 +65,4 @@ class AppModule {
         return new PhotosRepository(api, photosDao);
     }
 
-
 }
