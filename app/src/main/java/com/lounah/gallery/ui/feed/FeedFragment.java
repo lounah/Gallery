@@ -94,6 +94,13 @@ public class FeedFragment extends BaseFragment implements
         viewModel.refreshFeed(false);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && viewModel != null)
+            viewModel.refreshFeed(false);
+    }
+
     private void initializeAdapter() {
         adapter = new FeedAdapter(new PhotoOnClickListener() {
             @Override
@@ -171,9 +178,10 @@ public class FeedFragment extends BaseFragment implements
     }
 
     @Override
-    public void onDownloadCompletedWithError() {
+    public void onDownloadCompletedWithError(@NonNull final String error) {
         downloadFragment.dismiss();
-        Toast.makeText(getActivity(), R.string.error_downloading, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), R.string.error_downloading, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

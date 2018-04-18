@@ -92,7 +92,7 @@ public class Photo implements Parcelable {
     }
 
     public String getFileDownloadLink() {
-        return fileDownloadLink;
+        return fileDownloadLink.trim();
     }
 
     public String getDate() {
