@@ -59,13 +59,17 @@ public class OfflineFragment extends BaseFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         viewModel.getSavedPhotosPaths(FileUtil.savedPhotosDirectory())
                 .observe(this, paths -> {
                 if (!paths.isEmpty()) {
                     enableDataView();
                     onHideSwipeLoadingView();
                     adapter.updateDataSet(paths);
-                } else showEmptyView();
+                } else {
+                    showEmptyView();
+                    onHideSwipeLoadingView();
+                }
                 });
     }
 
@@ -98,7 +102,7 @@ public class OfflineFragment extends BaseFragment
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (!isVisibleToUser && viewModel != null)
+        if (isVisibleToUser && viewModel != null)
             viewModel.refresh();
     }
 
