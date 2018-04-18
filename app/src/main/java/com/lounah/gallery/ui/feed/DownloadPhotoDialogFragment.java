@@ -89,8 +89,8 @@ public class DownloadPhotoDialogFragment extends DialogFragment {
         mCallback.onDownloadCompletedSuccessfully();
     }
 
-    private void onDownloadFailed() {
-        mCallback.onDownloadCompletedWithError();
+    private void onDownloadFailed(@NonNull final String error) {
+        mCallback.onDownloadCompletedWithError(error);
     }
 
     private void onPhotoAlreadyExists() {
@@ -132,7 +132,7 @@ public class DownloadPhotoDialogFragment extends DialogFragment {
                     onDownloadCompleted();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    onDownloadFailed();
+                    onDownloadFailed(e.getMessage());
                 }
             } else photoAlreadyExists();
         }
@@ -145,10 +145,10 @@ public class DownloadPhotoDialogFragment extends DialogFragment {
             }
         }
 
-        private void onDownloadFailed() {
+        private void onDownloadFailed(@NonNull final String error) {
             DownloadPhotoDialogFragment targetFragment = (DownloadPhotoDialogFragment) getTargetFragment();
             if (targetFragment != null) {
-                targetFragment.onDownloadFailed();
+                targetFragment.onDownloadFailed(error);
             }
         }
 
@@ -166,7 +166,7 @@ public class DownloadPhotoDialogFragment extends DialogFragment {
 
         void onDownloadCompletedSuccessfully();
 
-        void onDownloadCompletedWithError();
+        void onDownloadCompletedWithError(@NonNull final String error);
 
         void onPhotoAlreadyExists();
 
