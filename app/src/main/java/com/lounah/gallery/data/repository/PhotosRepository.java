@@ -2,6 +2,7 @@ package com.lounah.gallery.data.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -19,6 +20,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Call;
 import okhttp3.MultipartBody;
 import timber.log.Timber;
 
@@ -85,12 +87,27 @@ public class PhotosRepository {
         });
     }
 
+    /*
+        изменить
+     */
     public int getNumRowsFromFeed() {
        final int[] rows = new int[1];
        Completable.fromAction(() -> rows[0] = photosDao.getPersistedPhotosSize())
                .subscribeOn(Schedulers.io())
                .blockingAwait();
        return rows[0];
+    }
+
+    /*
+        это ужасно, я знаю
+     */
+    int testThreads_getNumRowsFeed() {
+        final int[] result = new int[1];
+        final NumRowsGetter getter = new NumRowsGetter(photosDao, rows -> {
+            result[0] = rows;
+        });
+        getter.execute();
+        return result[0];
     }
 
     public LiveData<List<String>> getSavedPhotosFilePaths(@NonNull final File savedPhotosDirectory) {
@@ -126,6 +143,33 @@ public class PhotosRepository {
 
     public Completable clearTrash() {
         return api.clearTrash().doOnComplete(photosDao::eraseAll);
+    }
+
+    /*
+        также ужасно
+     */
+    private static class NumRowsGetter extends AsyncTask<Void, Void, Integer> {
+
+        public interface Callback {
+            void onNumRowsLoaded(int rows);
+        }
+
+        private final Callback callback;
+        private final PhotosDao dao;
+
+        NumRowsGetter(@NonNull final PhotosDao dao, @NonNull final Callback callback) {
+            this.callback = callback;
+            this.dao = dao;
+        }
+
+        protected Integer doInBackground(Void... params) {
+            return dao.getPersistedPhotosSize();
+        }
+
+        protected void onPostExecute(Integer result) {
+            callback.onNumRowsLoaded(result);
+        }
+
     }
 
 }
