@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lounah.Gallery</string>
+    <string name="feed">Feed</string>
+    <string name="files">Files</string>
+    <string name="all_photos">All photos</string>
+    <string name="offline">Offline</string>
+    <string name="trash">Trash</string>
+    <string name="clear_space">Clear space</string>
+    <string name="dialog_clear_cache">Do you really want to clear cache?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="please_wait">Please, wait</string>
+    <string name="cancel_download">Cancel download</string>
+    <string name="error_fetching_data">Error fetching data</string>
+    <string name="error_delete">An error occurred while deletion</string>
+    <string name="error_moving_to_gallery">An error occurred while moving the photo to gallery</string>
+    <string name="error_downloading">An error occurred while downloading</string>
+    <string name="error_clear_cache">An error occurred while clearing cache</string>
+    <string name="successfully_moved">Successfully moved</string>
+    <string name="successfully_deleted">Successfully deleted</string>
+    <string name="successfully_downloaded">Successfully downloaded</string>
+    <string name="photo_already_exists">The photo already exists in your gallery!</string>
+    <string name="no_saved_photos">No saved photos</string>
+    <string name="no_deleted_photos">No deleted photos</string>
+    <string name="of">of</string>
+</resources>
